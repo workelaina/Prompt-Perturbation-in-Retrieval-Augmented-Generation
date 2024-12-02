@@ -18,6 +18,7 @@ conda install ipython ipykernel -c pytorch -c nvidia
 conda install transformers scikit-learn faiss -c pytorch -c nvidia
 pip install livelossplot
 conda install ipywidgets -c conda-forge  # error during download
+# conda install ipywidgets -c pytorch
 
 cd /mnt/v1
 git clone https://github.com/workelaina/Prompt-Perturbation-in-Retrieval-Augmented-Generation.git
