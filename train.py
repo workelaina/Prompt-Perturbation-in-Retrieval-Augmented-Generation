@@ -3,13 +3,11 @@ import csv
 import numpy as np
 import pickle
 import random
-# from struct import pack, unpack
-# import lzma
 import torch
 import torch.nn.functional as F
 from torch import Tensor
 from transformers import AutoTokenizer, AutoModel
-from DGD.help_functions import get_embedding, perturb_sentence, rank_tokens_by_importance, get_initial_ids, user_prompt_generation, check_success, check_MSEloss, get_first_output_token, get_neighbor_ids, check_success, get_relevant_documents
+from DGD.help_functions import rank_tokens_by_importance, get_initial_ids, user_prompt_generation, check_success, get_neighbor_ids, check_success, get_relevant_documents, last_token_pool
 from DGD.DGD import get_optimized_prefix_embedding
 
 device = torch.device("cuda")
@@ -23,17 +21,6 @@ model = AutoModel.from_pretrained('Salesforce/SFR-Embedding-Mistral', cache_dir=
 
 for param in model.parameters():
     param.requires_grad = False
-
-def last_token_pool(last_hidden_states: Tensor,
-                 attention_mask: Tensor) -> Tensor:
-    left_padding = (attention_mask[:, -1].sum() == attention_mask.shape[0])
-    if left_padding:
-        return last_hidden_states[:, -1]
-    else:
-        sequence_lengths = attention_mask.sum(dim=1) - 1
-        batch_size = last_hidden_states.shape[0]
-        return last_hidden_states[torch.arange(batch_size, device=last_hidden_states.device), sequence_lengths]
-
 
 tconst_title = {}
 count = 0
@@ -86,6 +73,7 @@ with open("./datasets/name.basics.tsv") as fd:
         
 
 # SFR mistral
+# ur motherfucker
 def get_relevant_documents_fuck(nconst_embeddings, query, topK, passages, model, tok):
     batch_dict = tok(query, return_tensors="pt").to(device)
     with torch.no_grad():
