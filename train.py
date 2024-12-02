@@ -86,7 +86,7 @@ with open("./datasets/name.basics.tsv") as fd:
         
 
 # SFR mistral
-def get_relevant_documents(nconst_embeddings, query, topK, passages, model, tok):
+def get_relevant_documents_fuck(nconst_embeddings, query, topK, passages, model, tok):
     batch_dict = tok(query, return_tensors="pt").to(device)
     with torch.no_grad():
         outputs = model(**batch_dict)
@@ -148,7 +148,7 @@ for i in range(0, len(prompts)):
 
     topk_result = 10
 
-    retrieved_docs, top_k = get_relevant_documents(torch.stack(nconst_embedding), user_query, topk_result, prompts, model, tok)
+    retrieved_docs, top_k = get_relevant_documents_fuck(torch.stack(nconst_embedding), user_query, topk_result, prompts, model, tok)
 
     is_success = check_success_anotherrr(target_passage_id, top_k)
     if is_success > 0:
