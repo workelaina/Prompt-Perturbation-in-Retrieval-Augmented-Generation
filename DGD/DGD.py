@@ -281,11 +281,13 @@ def greedy_coordinate_gradient_step(model, tok, one_hot, embed_weights, input_em
                 global_best_one_hot = one_hot.detach()
             
             if epoch % 1 == 0:
-                print(f'Epoch [{epoch}/{iterations}], Best Loss: {best_loss.item():.4f}')
                 loss_list["loss"].append(best_loss)
                 loss_list["target_loss"].append(best_loss_for_target)
                 loss_list["original_loss"].append(best_loss_for_origin)
             
+            if epoch % 10 == 0:
+                print(f'Epoch [{epoch}/{iterations}], Best Loss: {best_loss.item():.4f}')
+
             # Print progress
             if epoch % 20 == 0:
                 # Decode the optimized prefix

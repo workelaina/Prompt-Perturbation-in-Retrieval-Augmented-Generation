@@ -415,8 +415,7 @@ def get_relevant_documents(nconst_embeddings, query, topK, model, tok):
 
     return indices[0]
 
-def last_token_pool(last_hidden_states,
-                 attention_mask):
+def last_token_pool(last_hidden_states, attention_mask):
     left_padding = (attention_mask[:, -1].sum() == attention_mask.shape[0])
     if left_padding:
         return last_hidden_states[:, -1]
